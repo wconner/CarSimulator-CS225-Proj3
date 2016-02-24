@@ -8,7 +8,7 @@ import java.util.Random;
  * There is no location/venue class,the location is simply an integer held by edges as sources and destinations.
  *
  * As of right now, the run loop is inside the constructor, and you can travel as many miles as you want in a day,
- * should be changed so that nextDay gets called on the car with the least amount of miles instead of counting 'days'
+ * should be changed so that updateCars gets called on the car with the least amount of miles instead of counting 'days'
  *
  * I use ArrayLists everywhere, I wonder if there are better data structures to be using other than ArrayLists for everything
  *
@@ -27,7 +27,7 @@ public class Simulator {
 
         init();
         while(true) {
-            nextDay();
+            updateCars();
             checkForWinner();
         }
     }
@@ -35,7 +35,7 @@ public class Simulator {
     /**
      * Calls moveToNextLocation on each car.
      */
-    public void nextDay(){
+    public void updateCars(){
         for (Car c : cars)
             c.moveToNextLocation(map.getEdges(c.getCurrentLocation()));
     }
