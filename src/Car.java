@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Car {
 
     private int currentLocation;
+    private int currentDestination;
     private int distanceTraveled;
     private ArrayList<Integer> locationsVisited;
 
@@ -43,6 +44,8 @@ public class Car {
     }
 
     public int getCurrentLocation(){return currentLocation;}
+
+    public int getCurrentDestination(){ return currentDestination;}
 
     public int getDistanceTraveled(){ return distanceTraveled;}
 }

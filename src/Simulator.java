@@ -1,3 +1,5 @@
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,15 +19,26 @@ public class Simulator {
     public static Random random = new Random();
     public static int NUMOFLOCATIONS = 4;
 
+    public static int NEWYORK = 1;
+    public static int TEXAS = 2;
+    public static int NORTHDAKOTA = 3;
+    public static int COLORADO = 4;
+
     private ArrayList<Car> cars;
+    private ArrayList<Location> locations;
     private MapGraph map;
+    private RaceGUI GUI;
 
 
     public Simulator(){
         cars = new ArrayList<Car>();
+        locations = new ArrayList<Location>();
         map = new MapGraph();
 
         init();
+    }
+
+    public void runLoop(){
         while(true) {
             updateCars();
             checkForWinner();
@@ -58,13 +71,37 @@ public class Simulator {
      * May want to read in map from a text file (could use JSON)
      */
     private void init(){
-        for (int i = 0; i < NUMOFLOCATIONS; i++) {
-            map.insert(new Edge(i, (i + 1) % NUMOFLOCATIONS, random.nextInt(10)));
-            map.insert(new Edge(i, (i + random.nextInt(NUMOFLOCATIONS - 1)) % NUMOFLOCATIONS, random.nextInt(10)));
-            cars.add(new Car(i));
-        }
 
+        initLocations();
+        initCars();
     }
 
-    public static void main(String[] argc){ new Simulator();}
+    private void initCars(){
+        for (int i = 0; i < 4; i++)
+            cars.add(new Car(i));
+    }
+
+    private void initLocations(){
+        locations.add(new Location("NY", 0, 497, 96));
+        map.insert(new Edge(0, 1, 10));
+        map.insert(new Edge(0, 2, 13));
+        map.insert(new Edge(0, 2, 9));
+
+        locations.add(new Location("TX", 1, 299, 286));
+        map.insert(new Edge(1, 2, 5));
+        map.insert(new Edge(1, 3, 3));
+
+        locations.add(new Location("CO", 2, 206, 182));
+        map.insert(new Edge(2, 3, 8));
+        map.insert(new Edge(2, 4, 6));
+
+        locations.add(new Location("NV", 3, 103, 136));
+        map.insert(new Edge(3, 4, 2));
+
+        locations.add(new Location("ND", 4, 243, 60));
+        map.insert(new Edge(4, 1, 12));
+    }
+
+    public ArrayList<Location> getLocations(){ return locations;}
+    public ArrayList<Car> getCars(){ return cars;}
 }
