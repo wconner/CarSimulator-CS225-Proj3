@@ -21,6 +21,9 @@ import java.util.ArrayList;
  * @author bjs
  */
 public class RaceGUI extends Application {
+    private static float XCIRCLEOFFSET = 9.25f;
+    private static float YCIRCLEOFFSET = 5;
+
     private Group circles;
     private Button btn;
     private Simulator simulator;
@@ -47,9 +50,6 @@ public class RaceGUI extends Application {
 
         initAll();
         
-        root.getChildren().add(btn);
-        root.getChildren().add(circles);
-        
         Scene scene = new Scene(root, 600, 400);
         
         primaryStage.setTitle("");
@@ -73,13 +73,15 @@ public class RaceGUI extends Application {
         createMarkers();
         carMovement();
 
-        for (int i = 0; i < locations.size(); i++){     /** Initializing locations */
-            root.getChildren().add(new Text(locations.get(i).getxCord(),locations.get(i).getyCord(),locations.get(i).getName()));
+        for (int i = 0; i < circles.getChildren().size(); i++){ /** Initializing location circles */
+            circles.getChildren().get(i).setTranslateX(locations.get(i).getxCord() + XCIRCLEOFFSET);
+            circles.getChildren().get(i).setTranslateY(locations.get(i).getyCord() - YCIRCLEOFFSET);
         }
 
-        for (int i = 0; i < circles.getChildren().size(); i++){ /** Initializing location circles */
-            circles.getChildren().get(i).setTranslateX(locations.get(i).getxCord() + 9.25);
-            circles.getChildren().get(i).setTranslateY(locations.get(i).getyCord() - 5);
+        root.getChildren().add(circles);
+
+        for (int i = 0; i < locations.size(); i++){     /** Initializing locations */
+            root.getChildren().add(new Text(locations.get(i).getxCord(), locations.get(i).getyCord(), locations.get(i).getName()));
         }
 
         try {   /** Initializing cars */
@@ -95,6 +97,8 @@ public class RaceGUI extends Application {
             im.setTranslateY(locations.get(cars.get(i).getCurrentLocation()).getyCord());
             root.getChildren().add(im);
         }
+
+        root.getChildren().add(btn);
     }
     
     /**
