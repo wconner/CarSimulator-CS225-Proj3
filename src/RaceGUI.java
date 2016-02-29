@@ -1,10 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package racegui;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,6 +14,9 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 /**
  *
  * @author bjs
@@ -34,15 +30,22 @@ public class RaceGUI extends Application {
         Group root = new Group();
         
         //Map Image
-        Image map = new Image("file:\\C:\\Users\\bjs\\Documents\\NetBeansProjects\\RaceGUI\\src\\racegui\\US Map grey.png");
+        Image map = null;
+        try {
+            map = new Image(new FileInputStream("src/US.Map.grey.png"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         ImageView iv = new ImageView(map);
         root.getChildren().add(iv);
+
+        createMarkers();
+        carMovement();
         
         root.getChildren().add(btn);
         root.getChildren().add(circles);
         
-        createMarkers();
-        carMovement();
+
         
         //Labels for markers
         Text l1 = new Text();
@@ -103,7 +106,12 @@ public class RaceGUI extends Application {
         root.getChildren().add(l5);
        
         //Car 
-        Image car = new Image("file:\\C:\\Users\\bjs\\Documents\\NetBeansProjects\\RaceGUI\\src\\racegui\\car.png");
+        Image car = null;
+        try {
+            car = new Image((new FileInputStream("src/car.png")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         ImageView iv2 = new ImageView(car);
         iv2.setTranslateX(100);
         iv2.setTranslateY(120);
