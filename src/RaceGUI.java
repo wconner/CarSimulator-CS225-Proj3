@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author bjs
+ * @author Catherine
  */
 public class RaceGUI extends Application {
     private static float XCIRCLEOFFSET = 9.25f;
@@ -71,6 +71,8 @@ public class RaceGUI extends Application {
 
     private void initAll(){
         Image carImage = null;
+
+        createMarkers();
         carMovement();
 
         for (int i = 0; i < circles.getChildren().size(); i++){ /** Initializing location circles */
@@ -123,7 +125,21 @@ public class RaceGUI extends Application {
         root.getChildren().add(leaderboard);
         
     }
-    
+
+/**
+* Places circular markers for each location
+*/
+public void createMarkers()
+    {
+        circles = new Group();
+        for (int i = 0; i < 5; i++) {
+           Circle circle = new Circle(10, Color.web("white"));
+           circle.setStrokeType(StrokeType.OUTSIDE);
+           circle.setStroke(Color.web("black", 0.16));
+           circle.setStrokeWidth(2);
+           circles.getChildren().add(circle);
+        }
+    }    
     
     /**
     * Determines Next button's features and actions
