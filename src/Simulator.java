@@ -19,10 +19,10 @@ public class Simulator {
     public static Random random = new Random();
     public static int NUMOFLOCATIONS = 4;
 
-    public static int NEWYORK = 1;
-    public static int TEXAS = 2;
-    public static int NORTHDAKOTA = 3;
-    public static int COLORADO = 4;
+//    public static int NEWYORK = 1;
+//    public static int TEXAS = 2;
+//    public static int NORTHDAKOTA = 3;
+//    public static int COLORADO = 4;
 
     private ArrayList<Car> cars;
     private ArrayList<Location> locations;

@@ -34,7 +34,7 @@ public class Car {
                 locationsVisited.add(possibleMoves.get(i).getDest());
                 return;
             }
-        currentLocation = possibleMoves.get(Simulator.random.nextInt(possibleMoves.size() - 1)).getDest();
+        currentLocation = possibleMoves.get(Simulator.random.nextInt(possibleMoves.size())).getDest();
     }
 
     public boolean checkWin(){
