@@ -1,20 +1,21 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
+import javafx.scene.control.Label;
 import javafx.scene.image.*;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Text;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import javafx.stage.Stage;
 
 /**
  *
@@ -50,7 +51,7 @@ public class RaceGUI extends Application {
 
         initAll();
         
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 900, 400);
         
         primaryStage.setTitle("");
         primaryStage.setScene(scene);
@@ -70,7 +71,6 @@ public class RaceGUI extends Application {
 
     private void initAll(){
         Image carImage = null;
-        createMarkers();
         carMovement();
 
         for (int i = 0; i < circles.getChildren().size(); i++){ /** Initializing location circles */
@@ -99,22 +99,31 @@ public class RaceGUI extends Application {
         }
 
         root.getChildren().add(btn);
+        
+        Rectangle leaderboard = new Rectangle(650, 50, 200, 300);
+        
+        //Places label for each car
+        for(int i = 0; i < 5; i++) {
+            Label carlabel = new Label();
+            carlabel.setTranslateX(700);
+            carlabel.setTranslateY(100 + (i * 25));
+            carlabel.setText("Car" + (i+1));
+            root.getChildren().add(carlabel);
+        }
+        
+        //Records current location
+        for(int i = 0; i < 5; i++) {
+            Text places = new Text();
+            places.setText("" + locations.get(cars.getClass(i).getCurrentLocation()).getName());
+            places.setTranslateX(730);
+            places.setTranslateY(100 + (i * 25));
+            root.getChildren().add(places);
+        }
+        
+        root.getChildren().add(leaderboard);
+        
     }
     
-    /**
-     * Creates circular markers for the chosen locations locations  
-     */
-    public void createMarkers()
-    {
-        circles = new Group();
-        for (int i = 0; i < 5; i++) {
-           Circle circle = new Circle(10, Color.web("white"));
-           circle.setStrokeType(StrokeType.OUTSIDE);
-           circle.setStroke(Color.web("black", 0.16));
-           circle.setStrokeWidth(2);
-           circles.getChildren().add(circle);
-        }
-    }
     
     /**
     * Determines Next button's features and actions
