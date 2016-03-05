@@ -1,33 +1,43 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
+import javafx.scene.control.Label;
 import javafx.scene.image.*;
-import javafx.scene.Node;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import javafx.stage.Stage;
 
 /**
  *
- * @author bjs
+ * @author Catherine
  */
 public class RaceGUI extends Application {
+    private static float XCIRCLEOFFSET = 9.25f;
+    private static float YCIRCLEOFFSET = 5;
+
     private Group circles;
     private Button btn;
+    private Simulator simulator;
+    private ArrayList<Car> cars;
+    private ArrayList<Location> locations;
+    private Group root;
     
     @Override
     public void start(Stage primaryStage) {
-        Group root = new Group();
+        simulator = new Simulator();
+        cars = simulator.getCars();
+        locations = simulator.getLocations();
+        root = new Group();
         
         //Map Image
         Image map = null;
@@ -39,95 +49,87 @@ public class RaceGUI extends Application {
         ImageView iv = new ImageView(map);
         root.getChildren().add(iv);
 
-        createMarkers();
-        carMovement();
+        initAll();
         
-        root.getChildren().add(btn);
-        root.getChildren().add(circles);
-        
-
-        
-        //Labels for markers
-        Text l1 = new Text();
-        Text l2 = new Text();
-        Text l3 = new Text();
-        Text l4 = new Text();
-        Text l5 = new Text();
-        
-        Node location1 = circles.getChildren().get(0);
-        Node location2 = circles.getChildren().get(1);
-        Node location3 = circles.getChildren().get(2);
-        Node location4 = circles.getChildren().get(3);
-        Node location5 = circles.getChildren().get(4);
-        
-	//North Dakota
-        l1.setText("ND");
-        l1.setTranslateX(243);
-        l1.setTranslateY(60);
-        l1.setFont(Font.font("Verdana", 10));
-        location1.setTranslateX(250);
-        location1.setTranslateY(58);
-        root.getChildren().add(l1);
-        
-        //Nevada
-	l2.setText("NV");
-	l2.setTranslateX(103);
-	l2.setTranslateY(136);
-        l2.setFont(Font.font("Verdana", 10));
-        location2.setTranslateX(110);
-        location2.setTranslateY(134);
-        root.getChildren().add(l2);
-        
-        //Colorado
-	l3.setText("CO");
-	l3.setTranslateX(206);
-	l3.setTranslateY(182);
-        l3.setFont(Font.font("Verdana", 10));
-        location3.setTranslateX(213);
-        location3.setTranslateY(180);
-        root.getChildren().add(l3);
-        
-        //Texas
-	l4.setText("TX");
-	l4.setTranslateX(299);
-	l4.setTranslateY(286);
-        l4.setFont(Font.font("Verdana", 10));
-        location4.setTranslateX(305);
-        location4.setTranslateY(284);
-        root.getChildren().add(l4);
-        
-        //New York
-        l5.setText("NY");
-	l5.setTranslateX(497);
-	l5.setTranslateY(96);
-        l5.setFont(Font.font("Verdana", 10));
-        location5.setTranslateX(504);
-        location5.setTranslateY(94);
-        root.getChildren().add(l5);
-       
-        //Car 
-        Image car = null;
-        try {
-            car = new Image((new FileInputStream("src/car.png")));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        ImageView iv2 = new ImageView(car);
-        iv2.setTranslateX(100);
-        iv2.setTranslateY(120);
-        root.getChildren().add(iv2);
-        
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 900, 400);
         
         primaryStage.setTitle("");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
-    /**
-     * Creates circular markers for the chosen locations locations  
-     */
-    public void createMarkers()
+
+    /** This logic is brutally over complicated */
+    private void updateGUI(){
+        for (Node n : root.getChildren()){
+            if (n.getUserData() != null)
+              if (((String) n.getUserData()).startsWith("car")) {
+                  n.setTranslateX(locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getxCord());
+                  n.setTranslateY(locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getyCord());
+              }
+        }
+    }
+
+    private void initAll(){
+        Image carImage = null;
+
+        createMarkers();
+        carMovement();
+
+        for (int i = 0; i < circles.getChildren().size(); i++){ /** Initializing location circles */
+            circles.getChildren().get(i).setTranslateX(locations.get(i).getxCord() + XCIRCLEOFFSET);
+            circles.getChildren().get(i).setTranslateY(locations.get(i).getyCord() - YCIRCLEOFFSET);
+        }
+
+        root.getChildren().add(circles);
+
+        for (int i = 0; i < locations.size(); i++){     /** Initializing locations */
+            root.getChildren().add(new Text(locations.get(i).getxCord(), locations.get(i).getyCord(), locations.get(i).getName()));
+        }
+
+        try {   /** Initializing cars */
+            carImage = new Image((new FileInputStream("src/car.png")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < cars.size(); i++){
+            ImageView im = new ImageView(carImage);
+            im.setUserData("car" + i);
+            im.setTranslateX(locations.get(cars.get(i).getCurrentLocation()).getxCord());
+            im.setTranslateY(locations.get(cars.get(i).getCurrentLocation()).getyCord());
+            root.getChildren().add(im);
+        }
+
+        root.getChildren().add(btn);
+        
+        Rectangle leaderboard = new Rectangle(650, 50, 200, 300);
+        
+        //Places label for each car
+        for(int i = 0; i < 5; i++) {
+            Label carlabel = new Label();
+            carlabel.setTranslateX(700);
+            carlabel.setTranslateY(100 + (i * 25));
+            carlabel.setText("Car" + (i+1));
+            root.getChildren().add(carlabel);
+        }
+        
+        //Records current location
+        for(int i = 0; i < 5; i++) {
+            Text places = new Text();
+            places.setText("" + locations.get(cars.getClass(i).getCurrentLocation()).getName());
+            places.setTranslateX(730);
+            places.setTranslateY(100 + (i * 25));
+            root.getChildren().add(places);
+        }
+        
+        root.getChildren().add(leaderboard);
+        
+    }
+
+/**
+* Places circular markers for each location
+*/
+public void createMarkers()
     {
         circles = new Group();
         for (int i = 0; i < 5; i++) {
@@ -137,7 +139,7 @@ public class RaceGUI extends Application {
            circle.setStrokeWidth(2);
            circles.getChildren().add(circle);
         }
-    }
+    }    
     
     /**
     * Determines Next button's features and actions
@@ -152,7 +154,8 @@ public class RaceGUI extends Application {
             
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Next");
+                simulator.updateCars();
+                updateGUI();
             }
         });
     }

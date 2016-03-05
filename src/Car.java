@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Car {
 
     private int currentLocation;
+    private int currentDestination;
     private int distanceTraveled;
     private ArrayList<Integer> locationsVisited;
 
@@ -33,7 +34,7 @@ public class Car {
                 locationsVisited.add(possibleMoves.get(i).getDest());
                 return;
             }
-        currentLocation = possibleMoves.get(Simulator.random.nextInt(possibleMoves.size() - 1)).getDest();
+        currentLocation = possibleMoves.get(Simulator.random.nextInt(possibleMoves.size())).getDest();
     }
 
     public boolean checkWin(){
@@ -43,6 +44,8 @@ public class Car {
     }
 
     public int getCurrentLocation(){return currentLocation;}
+
+    public int getCurrentDestination(){ return currentDestination;}
 
     public int getDistanceTraveled(){ return distanceTraveled;}
 }
