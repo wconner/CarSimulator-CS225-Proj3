@@ -1,5 +1,3 @@
-import javafx.stage.Stage;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -46,11 +44,11 @@ public class Simulator {
     }
 
     /**
-     * Calls moveToNextLocation on each car.
+     * Calls updateLocation on each car.
      */
     public void updateCars(){
         for (Car c : cars)
-            c.moveToNextLocation(map.getEdges(c.getCurrentLocation()));
+            c.updateLocation(map.getEdges(c.getCurrentLocation()));
     }
 
     /**

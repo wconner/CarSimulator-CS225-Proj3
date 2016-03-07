@@ -116,7 +116,11 @@ public class RaceGUI extends Application {
         //Records current location
         for(int i = 0; i < cars.size(); i++) {
             Text places = new Text();
+<<<<<<< HEAD
             places.setText("" + locations.get(cars.get(i).getCurrentLocation()).getName());
+=======
+            //places.setText("" + locations.get(cars.get(i).getCurrentLocation()).getName());
+>>>>>>> refs/remotes/origin/Connor
             places.setTranslateX(730);
             places.setTranslateY(100 + (i * 25));
             root.getChildren().add(places);
