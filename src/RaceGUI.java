@@ -14,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -103,11 +105,23 @@ public class RaceGUI extends Application {
         root.getChildren().add(btn);
         
         Rectangle leaderboard = new Rectangle(650, 50, 200, 300);
+        leaderboard.setFill(Color.WHITE);
+        leaderboard.setStrokeType(StrokeType.OUTSIDE);
+        leaderboard.setStroke(Color.BLACK);
+        leaderboard.setStrokeWidth(2);
+        root.getChildren().add(leaderboard);
+        
+        Label board = new Label();
+        board.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+        board.setText("Leaderboard");
+        board.setTranslateX(660);
+        board.setTranslateY(60);
+        root.getChildren().add(board);
         
         //Places label for each car
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < cars.size(); i++) {
             Label carlabel = new Label();
-            carlabel.setTranslateX(700);
+            carlabel.setTranslateX(660);
             carlabel.setTranslateY(100 + (i * 25));
             carlabel.setText("Car" + (i+1));
             root.getChildren().add(carlabel);
@@ -117,21 +131,11 @@ public class RaceGUI extends Application {
         for(int i = 0; i < cars.size(); i++) {
             Text places = new Text();
             places.setText("" + locations.get(cars.get(i).getCurrentLocation()).getName());
-            places.setTranslateX(730);
-            places.setTranslateY(100 + (i * 25));
+            places.setTranslateX(690);
+            places.setTranslateY(113 + (i * 25));
             root.getChildren().add(places);
         }
-
-        /**
-         * CATHERINE LOOK HERE!!!!
-         * We are looping through each car, grabbing all of its locations visited, and getting the name of each of the locations visited.
-         * This should be what you need, email me and let me know if you need any more help or if this doesn't work.
-         */
-//        for (Car c : cars)
-//            for (int i = 0; i < c.getLocationsVisited().size(); i++)
-//                locations.get(c.getLocationsVisited().get(i)).getName();
         
-        root.getChildren().add(leaderboard);
         
     }
 
