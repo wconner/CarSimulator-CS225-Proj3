@@ -103,4 +103,5 @@ public class Car {
     public void setAcceleration(int a){
         acceleration = a;
     }
+    public ArrayList<Integer> getLocationsVisited() {return locationsVisited;}
 }

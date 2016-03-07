@@ -121,6 +121,15 @@ public class RaceGUI extends Application {
             places.setTranslateY(100 + (i * 25));
             root.getChildren().add(places);
         }
+
+        /**
+         * CATHERINE LOOK HERE!!!!
+         * We are looping through each car, grabbing all of its locations visited, and getting the name of each of the locations visited.
+         * This should be what you need, email me and let me know if you need any more help or if this doesn't work.
+         */
+//        for (Car c : cars)
+//            for (int i = 0; i < c.getLocationsVisited().size(); i++)
+//                locations.get(c.getLocationsVisited().get(i)).getName();
         
         root.getChildren().add(leaderboard);
         
