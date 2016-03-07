@@ -23,6 +23,8 @@ public class Car {
         distanceTraveled = 0;
         locationsVisited = new ArrayList<Integer>();
         locationsVisited.add(currentLocation);
+        acceleration = Simulator.random.nextInt(1)+1;
+        maxVelocity = Simulator.random.nextInt(2)+2;
     }
 
     /**
@@ -92,5 +94,13 @@ public class Car {
 
     public int getDistanceTraveled() {
         return distanceTraveled;
+    }
+
+    public void setMaxVelocity(int mV){
+        maxVelocity = mV;
+    }
+
+    public void setAcceleration(int a){
+        acceleration = a;
     }
 }
