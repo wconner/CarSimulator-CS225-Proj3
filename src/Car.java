@@ -47,7 +47,6 @@ public class Car {
         {
             currentSpeed = maxVelocity;
         }
-        //------------------------------------------
 
         //moves car towards destination or registers car hitting destination -------------------
         if((distanceToNextDestination-currentSpeed)>=0){
@@ -73,7 +72,6 @@ public class Car {
 
         for (int i = Simulator.random.nextInt(possibleMoves.size() - 1) % Simulator.NUMOFLOCATIONS; i < possibleMoves.size(); i++)
             if (!locationsVisited.contains(possibleMoves.get(i).getDest())){
-                locationsVisited.add(currentLocation);
                 currentDestination = possibleMoves.get(i).getDest();
                 distanceToNextDestination = (int)possibleMoves.get(i).getWeight(); //issue with types, probably gonna consult for this~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 //locationsVisited.add(possibleMoves.get(i).getDest()); <<<<<<<<< I think this might be obsolete with the above code about locations visited
