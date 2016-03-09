@@ -76,7 +76,7 @@ public class Simulator {
 
     private void initCars(){
         for (int i = 0; i < 4; i++)
-            cars.add(new Car(i));
+            cars.add(new Car(i, map.getEdges(i).get(random.nextInt(map.getEdges(i).size())).getDest()));
     }
 
     private void initLocations(){

@@ -18,8 +18,9 @@ public class Car {
     private int distanceToNextDestination;
 
 
-    public Car(int currentLocation) {
+    public Car(int currentLocation, int currentDestination) {
         this.currentLocation = currentLocation;
+        this.currentDestination = currentDestination;
         distanceTraveled = 0;
         locationsVisited = new ArrayList<Integer>();
         locationsVisited.add(currentLocation);
