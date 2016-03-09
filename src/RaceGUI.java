@@ -14,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -31,6 +33,7 @@ public class RaceGUI extends Application {
     private ArrayList<Car> cars;
     private ArrayList<Location> locations;
     private Group root;
+    private ArrayList<Label> locationsVisitedLabels; private ArrayList<Label> currentSpeedLabels;
     
     @Override
     public void start(Stage primaryStage) {
@@ -38,6 +41,12 @@ public class RaceGUI extends Application {
         cars = simulator.getCars();
         locations = simulator.getLocations();
         root = new Group();
+
+        locationsVisitedLabels = new ArrayList<Label>(); currentSpeedLabels = new ArrayList<Label>();
+        for (int i = 0; i < cars.size(); i++) {
+            locationsVisitedLabels.add(new Label(""));
+            currentSpeedLabels.add(new Label("0"));
+        }
         
         //Map Image
         Image map = null;
@@ -61,11 +70,27 @@ public class RaceGUI extends Application {
     /** This logic is brutally over complicated */
     private void updateGUI(){
         for (Node n : root.getChildren()){
-            if (n.getUserData() != null)
-              if (((String) n.getUserData()).startsWith("car")) {
-                  n.setTranslateX(locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getxCord());
-                  n.setTranslateY(locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getyCord());
-              }
+            if (n.getUserData() != null) {
+
+                int edgeWeight = cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getTotalDistancetoNextLocation();
+                int DTND = cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getDistanceToNextDestination();
+                int x1 = locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getxCord();
+                int y1 = locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getyCord();
+
+                if (((String) n.getUserData()).startsWith("car")) {
+                    n.setTranslateX(locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getxCord());
+                    n.setTranslateY(locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getyCord());
+                }
+            }
+        }
+        //Records current location
+        for(int i = 0; i < cars.size(); i++) {
+            String s = "";
+            for (Integer j :cars.get(i).getLocationsVisited())
+                s += locations.get(j).getName() + " ";
+                 locationsVisitedLabels.get(i).setText(s);
+
+            currentSpeedLabels.get(i).setText(Integer.toString(cars.get(i).getCurrentSpeed()));
         }
     }
 
@@ -103,33 +128,51 @@ public class RaceGUI extends Application {
         root.getChildren().add(btn);
         
         Rectangle leaderboard = new Rectangle(650, 50, 200, 300);
+        leaderboard.setFill(Color.WHITE);
+        leaderboard.setStrokeType(StrokeType.OUTSIDE);
+        leaderboard.setStroke(Color.BLACK);
+        leaderboard.setStrokeWidth(2);
+        root.getChildren().add(leaderboard);
         
+        Label board = new Label();
+        board.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
+        board.setText("Leaderboard");
+        board.setTranslateX(660);
+        board.setTranslateY(60);
+
+        Label currentSpeedLabel = new Label();
+        currentSpeedLabel.setFont(Font.font("Verdana", 10));
+        currentSpeedLabel.setText("Current Speed:");
+        currentSpeedLabel.setTranslateX(750);
+        currentSpeedLabel.setTranslateY(80);
+
+        for (int i = 0 ; i < cars.size(); i++) {
+            locationsVisitedLabels.get(i).setTranslateX(670 + (counter * 20));
+            locationsVisitedLabels.get(i).setTranslateY(113 + (i * 25));
+            root.getChildren().add(locationsVisitedLabels.get(i));
+
+            currentSpeedLabels.get(i).setTranslateX(800);
+            currentSpeedLabels.get(i).setTranslateY(113 + (i * 25));
+            root.getChildren().add(currentSpeedLabels.get(i));
+        }
+        root.getChildren().add(board);
+        root.getChildren().add(currentSpeedLabel);
+
+
         //Places label for each car
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < cars.size(); i++) {
             Label carlabel = new Label();
-            carlabel.setTranslateX(700);
+            carlabel.setTranslateX(660);
             carlabel.setTranslateY(100 + (i * 25));
             carlabel.setText("Car" + (i+1));
             root.getChildren().add(carlabel);
         }
-        
-        //Records current location
-        for(int i = 0; i < cars.size(); i++) {
-            Text places = new Text();
-            //places.setText("" + locations.get(cars.get(i).getCurrentLocation()).getName());
-            places.setTranslateX(730);
-            places.setTranslateY(100 + (i * 25));
-            root.getChildren().add(places);
-        }
-        
-        root.getChildren().add(leaderboard);
-        
     }
 
-/**
-* Places circular markers for each location
-*/
-public void createMarkers()
+    /**
+    * Places circular markers for each location
+    */
+    public void createMarkers()
     {
         circles = new Group();
         for (int i = 0; i < 5; i++) {
@@ -141,6 +184,7 @@ public void createMarkers()
         }
     }    
     
+    private int counter = 0;
     /**
     * Determines Next button's features and actions
     */
@@ -151,11 +195,12 @@ public void createMarkers()
         btn.setTranslateX(550);
         btn.setTranslateY(360);
 	btn.setOnAction(new EventHandler<ActionEvent>() {
-            
             @Override
             public void handle(ActionEvent event) {
                 simulator.updateCars();
                 updateGUI();
+                simulator.checkForWinner();
+                counter = counter + 1;
             }
         });
     }

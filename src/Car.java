@@ -16,10 +16,12 @@ public class Car {
     private int acceleration;
     private int currentSpeed;
     private int distanceToNextDestination;
+    private int totalDistancetoNextLocation;
 
 
-    public Car(int currentLocation) {
+    public Car(int currentLocation, int currentDestination) {
         this.currentLocation = currentLocation;
+        this.currentDestination = currentDestination;
         distanceTraveled = 0;
         locationsVisited = new ArrayList<Integer>();
         locationsVisited.add(currentLocation);
@@ -47,7 +49,6 @@ public class Car {
         {
             currentSpeed = maxVelocity;
         }
-        //------------------------------------------
 
         //moves car towards destination or registers car hitting destination -------------------
         if((distanceToNextDestination-currentSpeed)>=0){
@@ -60,18 +61,23 @@ public class Car {
             currentSpeed = 0;
             chooseNewDestination(possibleMoves);
         }
-
     }
 
     // previously named chooseNewLocation
     // job is set it so that the new currentLocation is now the previous destination, then to choose next destination if it can, then set the new distanceToNextDestination
     public void chooseNewDestination(ArrayList<Edge> possibleMoves) {
+
+        if(!locationsVisited.contains(currentLocation)){
+            locationsVisited.add(currentLocation);
+        }
+
         currentLocation = currentDestination;
-        locationsVisited.add(currentLocation);
+
         for (int i = Simulator.random.nextInt(possibleMoves.size() - 1) % Simulator.NUMOFLOCATIONS; i < possibleMoves.size(); i++)
             if (!locationsVisited.contains(possibleMoves.get(i).getDest())){
                 currentDestination = possibleMoves.get(i).getDest();
                 distanceToNextDestination = (int)possibleMoves.get(i).getWeight(); //issue with types, probably gonna consult for this~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                totalDistancetoNextLocation = distanceToNextDestination;
                 //locationsVisited.add(possibleMoves.get(i).getDest()); <<<<<<<<< I think this might be obsolete with the above code about locations visited
                 return;
             }
@@ -103,4 +109,12 @@ public class Car {
     public void setAcceleration(int a){
         acceleration = a;
     }
+
+    public int getCurrentSpeed(){ return currentSpeed;}
+
+    public int getDistanceToNextDestination() { return distanceToNextDestination;}
+
+    public int getTotalDistancetoNextLocation() { return totalDistancetoNextLocation;}
+
+    public ArrayList<Integer> getLocationsVisited() {return locationsVisited;}
 }

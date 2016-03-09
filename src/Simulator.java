@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15,17 +16,11 @@ import java.util.Random;
  */
 public class Simulator {
     public static Random random = new Random();
-    public static int NUMOFLOCATIONS = 4;
-
-//    public static int NEWYORK = 1;
-//    public static int TEXAS = 2;
-//    public static int NORTHDAKOTA = 3;
-//    public static int COLORADO = 4;
+    public static int NUMOFLOCATIONS;
 
     private ArrayList<Car> cars;
     private ArrayList<Location> locations;
     private MapGraph map;
-    private RaceGUI GUI;
 
 
     public Simulator(){
@@ -34,13 +29,6 @@ public class Simulator {
         map = new MapGraph();
 
         init();
-    }
-
-    public void runLoop(){
-        while(true) {
-            updateCars();
-            checkForWinner();
-        }
     }
 
     /**
@@ -54,11 +42,10 @@ public class Simulator {
     /**
      * Checks to see if there is a winner.
      */
-    private void checkForWinner(){
+    public void checkForWinner(){
         for (Car c : cars)
             if (c.checkWin()) {
-                System.out.println("We have a winner!\nDistance traveled by winner: " + c.getDistanceTraveled());
-                System.exit(1);
+                JOptionPane.showMessageDialog(null, "We have a winner!\nDistance traveled by winner: " + c.getDistanceTraveled());
             }
     }
 
@@ -72,11 +59,12 @@ public class Simulator {
 
         initLocations();
         initCars();
+        NUMOFLOCATIONS = cars.size();
     }
 
     private void initCars(){
         for (int i = 0; i < 4; i++)
-            cars.add(new Car(i));
+            cars.add(new Car(i, map.getEdges(i).get(random.nextInt(map.getEdges(i).size())).getDest()));
     }
 
     private void initLocations(){
