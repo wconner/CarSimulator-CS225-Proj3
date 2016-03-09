@@ -126,10 +126,6 @@ public class RaceGUI extends Application {
             carlabel.setText("Car" + (i+1));
             root.getChildren().add(carlabel);
         }
-
-
-
-
     }
 
     /**
