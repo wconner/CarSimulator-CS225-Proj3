@@ -81,7 +81,10 @@ public class Car {
                 //locationsVisited.add(possibleMoves.get(i).getDest()); <<<<<<<<< I think this might be obsolete with the above code about locations visited
                 return;
             }
-        currentDestination = possibleMoves.get(Simulator.random.nextInt(possibleMoves.size())).getDest();
+        int x = Simulator.random.nextInt(possibleMoves.size());
+        currentDestination = possibleMoves.get(x).getDest();
+        distanceToNextDestination = (int)possibleMoves.get(x).getWeight(); //issue with types, probably gonna consult for this~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        totalDistancetoNextLocation = distanceToNextDestination;
     }
 
     public boolean checkWin() {
