@@ -126,10 +126,10 @@ public class RaceGUI extends Application {
             carlabel.setText("Car" + (i+1));
             root.getChildren().add(carlabel);
         }
-        
-        
-        
-        
+
+
+
+
     }
 
     /**
@@ -168,7 +168,8 @@ public class RaceGUI extends Application {
                 //Records current location
                 for(int i = 0; i < cars.size(); i++) {
                         Text places = new Text();
-                        places.setText("" + locations.get(cars.get(i).getCurrentLocation()).getName());
+                        for (Integer j :cars.get(i).getLocationsVisited())
+                            places.setText(locations.get(j).getName());
                         places.setTranslateX(670 + (counter * 20));
                         places.setTranslateY(113 + (i * 25));
                         root.getChildren().add(places);

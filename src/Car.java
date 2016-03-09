@@ -67,9 +67,9 @@ public class Car {
     // job is set it so that the new currentLocation is now the previous destination, then to choose next destination if it can, then set the new distanceToNextDestination
     public void chooseNewDestination(ArrayList<Edge> possibleMoves) {
         currentLocation = currentDestination;
-        locationsVisited.add(currentLocation);
         for (int i = Simulator.random.nextInt(possibleMoves.size() - 1) % Simulator.NUMOFLOCATIONS; i < possibleMoves.size(); i++)
             if (!locationsVisited.contains(possibleMoves.get(i).getDest())){
+                locationsVisited.add(currentLocation);
                 currentDestination = possibleMoves.get(i).getDest();
                 distanceToNextDestination = (int)possibleMoves.get(i).getWeight(); //issue with types, probably gonna consult for this~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 //locationsVisited.add(possibleMoves.get(i).getDest()); <<<<<<<<< I think this might be obsolete with the above code about locations visited
@@ -103,5 +103,6 @@ public class Car {
     public void setAcceleration(int a){
         acceleration = a;
     }
+
     public ArrayList<Integer> getLocationsVisited() {return locationsVisited;}
 }
