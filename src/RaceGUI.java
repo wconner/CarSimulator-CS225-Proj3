@@ -72,14 +72,19 @@ public class RaceGUI extends Application {
         for (Node n : root.getChildren()){
             if (n.getUserData() != null) {
 
-                int edgeWeight = cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getTotalDistancetoNextLocation();
-                int DTND = cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getDistanceToNextDestination();
-                int x1 = locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getxCord();
-                int y1 = locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getyCord();
+                double edgeWeight = cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getTotalDistancetoNextLocation();
+                double DTND = cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getDistanceToNextDestination();
+                double x1 = locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getxCord();
+                double y1 = locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getyCord();
+                double x2 = locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentDestination()).getxCord();
+                double y2 = locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentDestination()).getyCord();
+
+                int xCord = (int)(((x2 - x1) * ((edgeWeight - DTND) / edgeWeight)) + x1);
+                int yCord = (int)(((y2 - y1) * ((edgeWeight - DTND) / edgeWeight)) + y1);
 
                 if (((String) n.getUserData()).startsWith("car")) {
-                    n.setTranslateX(locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getxCord());
-                    n.setTranslateY(locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentLocation()).getyCord());
+                    n.setTranslateX(xCord);
+                    n.setTranslateY(yCord);
                 }
             }
         }
