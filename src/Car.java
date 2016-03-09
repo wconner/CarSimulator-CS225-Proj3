@@ -67,7 +67,10 @@ public class Car {
     // job is set it so that the new currentLocation is now the previous destination, then to choose next destination if it can, then set the new distanceToNextDestination
     public void chooseNewDestination(ArrayList<Edge> possibleMoves) {
         currentLocation = currentDestination;
-        locationsVisited.add(currentLocation);
+        if(!locationsVisited.contains(currentLocation)){
+            locationsVisited.add(currentLocation);
+        }
+
         for (int i = Simulator.random.nextInt(possibleMoves.size() - 1) % Simulator.NUMOFLOCATIONS; i < possibleMoves.size(); i++)
             if (!locationsVisited.contains(possibleMoves.get(i).getDest())){
                 currentDestination = possibleMoves.get(i).getDest();
