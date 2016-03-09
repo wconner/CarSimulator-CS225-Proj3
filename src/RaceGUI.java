@@ -95,7 +95,10 @@ public class RaceGUI extends Application {
     }
 
     private void initAll(){
-        Image carImage = null;
+        Image whiteCarImage = null;
+        Image redCarImage = null;
+        Image greenCarImage = null;
+        Image blueCarImage = null;
 
         createMarkers();
         carMovement();
@@ -111,14 +114,23 @@ public class RaceGUI extends Application {
             root.getChildren().add(new Text(locations.get(i).getxCord(), locations.get(i).getyCord(), locations.get(i).getName()));
         }
 
+        ArrayList<Image> carImages = new ArrayList<>();
         try {   /** Initializing cars */
-            carImage = new Image((new FileInputStream("src/car.png")));
+            whiteCarImage = new Image((new FileInputStream("src/carW.png")));
+            carImages.add(whiteCarImage);
+            redCarImage = new Image((new FileInputStream("src/carR.png")));
+            carImages.add(redCarImage);
+            greenCarImage = new Image((new FileInputStream("src/carG.png")));
+            carImages.add(greenCarImage);
+            blueCarImage = new Image((new FileInputStream("src/carB.png")));
+            carImages.add(blueCarImage);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         for (int i = 0; i < cars.size(); i++){
-            ImageView im = new ImageView(carImage);
+            Image cImage = carImages.get(i%4);
+            ImageView im = new ImageView(cImage);
             im.setUserData("car" + i);
             im.setTranslateX(locations.get(cars.get(i).getCurrentLocation()).getxCord());
             im.setTranslateY(locations.get(cars.get(i).getCurrentLocation()).getyCord());
@@ -164,7 +176,7 @@ public class RaceGUI extends Application {
             Label carlabel = new Label();
             carlabel.setTranslateX(660);
             carlabel.setTranslateY(100 + (i * 25));
-            carlabel.setText("Car" + (i+1));
+            carlabel.setText("Car" + (i + 1));
             root.getChildren().add(carlabel);
         }
     }
