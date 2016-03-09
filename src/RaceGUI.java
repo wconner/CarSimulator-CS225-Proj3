@@ -127,22 +127,15 @@ public class RaceGUI extends Application {
             root.getChildren().add(carlabel);
         }
         
-        //Records current location
-        for(int i = 0; i < cars.size(); i++) {
-            Text places = new Text();
-            places.setText("" + locations.get(cars.get(i).getCurrentLocation()).getName());
-            places.setTranslateX(690);
-            places.setTranslateY(113 + (i * 25));
-            root.getChildren().add(places);
-        }
+        
         
         
     }
 
-/**
-* Places circular markers for each location
-*/
-public void createMarkers()
+    /**
+    * Places circular markers for each location
+    */
+    public void createMarkers()
     {
         circles = new Group();
         for (int i = 0; i < 5; i++) {
@@ -154,6 +147,7 @@ public void createMarkers()
         }
     }    
     
+    private int counter = 0;
     /**
     * Determines Next button's features and actions
     */
@@ -164,11 +158,21 @@ public void createMarkers()
         btn.setTranslateX(550);
         btn.setTranslateY(360);
 	btn.setOnAction(new EventHandler<ActionEvent>() {
-            
             @Override
             public void handle(ActionEvent event) {
                 simulator.updateCars();
                 updateGUI();
+                
+                counter = counter + 1;
+               
+                //Records current location
+                for(int i = 0; i < cars.size(); i++) {
+                        Text places = new Text();
+                        places.setText("" + locations.get(cars.get(i).getCurrentLocation()).getName());
+                        places.setTranslateX(670 + (counter * 20));
+                        places.setTranslateY(113 + (i * 25));
+                        root.getChildren().add(places);
+                }
             }
         });
     }
