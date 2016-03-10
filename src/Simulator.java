@@ -37,6 +37,7 @@ public class Simulator {
     public void updateCars(){
         for (Car c : cars)
             c.updateLocation(map.getEdges(c.getCurrentLocation()));
+        //System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
     /**

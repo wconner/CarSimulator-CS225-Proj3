@@ -93,7 +93,7 @@ public class RaceGUI extends Application {
             String s = "";
             for (Integer j :cars.get(i).getLocationsVisited())
                 s += locations.get(j).getName() + " ";
-                 locationsVisitedLabels.get(i).setText(s);
+            locationsVisitedLabels.get(i).setText(s);
 
             currentSpeedLabels.get(i).setText(Integer.toString(cars.get(i).getCurrentSpeed()));
         }
