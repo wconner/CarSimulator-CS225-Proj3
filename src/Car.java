@@ -52,8 +52,10 @@ public class Car {
             currentSpeed = maxVelocity;
         }
 
+        //System.out.println("Car: ("+currentLocation+" to "+ currentDestination+") : "+distanceToNextDestination);
+        //System.out.println("^Before Logic^");
         //moves car towards destination or registers car hitting destination -------------------
-        if((distanceToNextDestination-currentSpeed)>=0){
+        if((distanceToNextDestination-currentSpeed)>0){
             distanceToNextDestination -= currentSpeed; //case: car still traveling: progress towards destination, records distance traveled
             distanceTraveled += currentSpeed;
 
@@ -63,18 +65,24 @@ public class Car {
             currentSpeed = 0;
             chooseNewDestination(possibleMoves);
         }
+        //System.out.println("Car: ("+currentLocation+" to "+ currentDestination+") : "+distanceToNextDestination);
+        //System.out.println("^After Logic^");
+        //System.out.println("Locations Visted"+locationsVisited.toString());
+        //System.out.println("++++++++++++++++++++++++");
     }
 
     // previously named chooseNewLocation
     // job is set it so that the new currentLocation is now the previous destination, then to choose next destination if it can, then set the new distanceToNextDestination
     public void chooseNewDestination(ArrayList<Edge> possibleMoves) {
 
-        if(firstTime == 1){
-            if (!locationsVisited.contains(currentLocation)) {
-                locationsVisited.add(currentLocation);
-            }
+        if(firstTime == 1) {
+
 
             currentLocation = currentDestination;
+
+            if (!locationsVisited.contains(currentLocation)) {
+            locationsVisited.add(currentLocation);
+            }
 
             for (int i = Simulator.random.nextInt(possibleMoves.size() - 1) % Simulator.NUMOFLOCATIONS; i < possibleMoves.size(); i++)
                 if (!locationsVisited.contains(possibleMoves.get(i).getDest())) {
