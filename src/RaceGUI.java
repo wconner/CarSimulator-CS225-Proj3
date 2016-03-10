@@ -34,6 +34,7 @@ public class RaceGUI extends Application {
     private ArrayList<Location> locations;
     private Group root;
     private ArrayList<Label> locationsVisitedLabels; private ArrayList<Label> currentSpeedLabels;
+    private boolean endGame;
     
     @Override
     public void start(Stage primaryStage) {
@@ -225,10 +226,12 @@ public class RaceGUI extends Application {
 	btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                simulator.updateCars();
-                updateGUI();
-                simulator.checkForWinner();
-                counter = counter + 1;
+                if(!endGame) {
+                    simulator.updateCars();
+                    updateGUI();
+                    endGame = simulator.checkForWinner();
+                    counter = counter + 1;
+                }
             }
         });
     }

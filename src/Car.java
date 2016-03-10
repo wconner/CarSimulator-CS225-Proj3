@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Bill on 2/22/16.
+ * Expanded by Connor, last update on 3/10/16
  * Car holds its current location, locationsVisited, and distance traveled.
  * <p>
  * As of right now I don't have any parameters like color, or tires in here (not sure why your tires would matter).
@@ -20,7 +21,11 @@ public class Car {
     private int firstTime;
     private int racingNumber;
 
-
+    /**
+     * Constructor class for Car
+     * @param currentLocation
+     * @param currentDestination
+     */
     public Car(int currentLocation, int currentDestination) {
         firstTime = 0;
         racingNumber = currentLocation + 1;
@@ -53,6 +58,16 @@ public class Car {
         {
             currentSpeed = maxVelocity;
         }
+        if(firstTime ==0){
+            for(Edge e : possibleMoves){
+                if(e.getDest() == currentDestination){
+                    distanceToNextDestination = (int)e.getWeight();
+                    totalDistancetoNextLocation = distanceToNextDestination;
+                }
+            }
+            //System.out.println("Car #"+racingNumber+":"+distanceToNextDestination);
+            firstTime =1;
+        }
 
         //System.out.println("Car: ("+currentLocation+" to "+ currentDestination+") : "+distanceToNextDestination);
         //System.out.println("^Before Logic^");
@@ -77,7 +92,7 @@ public class Car {
     // job is set it so that the new currentLocation is now the previous destination, then to choose next destination if it can, then set the new distanceToNextDestination
     public void chooseNewDestination(ArrayList<Edge> possibleMoves) {
 
-        if(firstTime == 1) {
+        //if(firstTime == 1) {
 
 
             currentLocation = currentDestination;
@@ -94,8 +109,8 @@ public class Car {
                     //locationsVisited.add(possibleMoves.get(i).getDest()); <<<<<<<<< I think this might be obsolete with the above code about locations visited
                     return;
                 }
-        }
-        firstTime = 1;
+        //}
+        //firstTime = 1;
         int x = Simulator.random.nextInt(possibleMoves.size());
         currentDestination = possibleMoves.get(x).getDest();
         distanceToNextDestination = (int)possibleMoves.get(x).getWeight(); //issue with types, probably gonna consult for this~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
