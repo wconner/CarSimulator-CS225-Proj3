@@ -18,10 +18,12 @@ public class Car {
     private int distanceToNextDestination;
     private int totalDistancetoNextLocation;
     private int firstTime;
+    private int racingNumber;
 
 
     public Car(int currentLocation, int currentDestination) {
         firstTime = 0;
+        racingNumber = currentLocation + 1;
         this.currentLocation = currentLocation;
         this.currentDestination = currentDestination;
         distanceTraveled = 0;
@@ -127,6 +129,8 @@ public class Car {
     }
 
     public int getCurrentSpeed(){ return currentSpeed;}
+
+    public int getRacingNumber(){return racingNumber;}
 
     public int getDistanceToNextDestination() { return distanceToNextDestination;}
 
