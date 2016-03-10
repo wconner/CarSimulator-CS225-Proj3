@@ -17,9 +17,11 @@ public class Car {
     private int currentSpeed;
     private int distanceToNextDestination;
     private int totalDistancetoNextLocation;
+    private int firstTime;
 
 
     public Car(int currentLocation, int currentDestination) {
+        firstTime = 0;
         this.currentLocation = currentLocation;
         this.currentDestination = currentDestination;
         distanceTraveled = 0;
@@ -67,20 +69,23 @@ public class Car {
     // job is set it so that the new currentLocation is now the previous destination, then to choose next destination if it can, then set the new distanceToNextDestination
     public void chooseNewDestination(ArrayList<Edge> possibleMoves) {
 
-        if(!locationsVisited.contains(currentLocation)){
-            locationsVisited.add(currentLocation);
-        }
-
-        currentLocation = currentDestination;
-
-        for (int i = Simulator.random.nextInt(possibleMoves.size() - 1) % Simulator.NUMOFLOCATIONS; i < possibleMoves.size(); i++)
-            if (!locationsVisited.contains(possibleMoves.get(i).getDest())){
-                currentDestination = possibleMoves.get(i).getDest();
-                distanceToNextDestination = (int)possibleMoves.get(i).getWeight(); //issue with types, probably gonna consult for this~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                totalDistancetoNextLocation = distanceToNextDestination;
-                //locationsVisited.add(possibleMoves.get(i).getDest()); <<<<<<<<< I think this might be obsolete with the above code about locations visited
-                return;
+        if(firstTime == 1){
+            if (!locationsVisited.contains(currentLocation)) {
+                locationsVisited.add(currentLocation);
             }
+
+            currentLocation = currentDestination;
+
+            for (int i = Simulator.random.nextInt(possibleMoves.size() - 1) % Simulator.NUMOFLOCATIONS; i < possibleMoves.size(); i++)
+                if (!locationsVisited.contains(possibleMoves.get(i).getDest())) {
+                    currentDestination = possibleMoves.get(i).getDest();
+                    distanceToNextDestination = (int) possibleMoves.get(i).getWeight(); //issue with types, probably gonna consult for this~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    totalDistancetoNextLocation = distanceToNextDestination;
+                    //locationsVisited.add(possibleMoves.get(i).getDest()); <<<<<<<<< I think this might be obsolete with the above code about locations visited
+                    return;
+                }
+        }
+        firstTime = 1;
         int x = Simulator.random.nextInt(possibleMoves.size());
         currentDestination = possibleMoves.get(x).getDest();
         distanceToNextDestination = (int)possibleMoves.get(x).getWeight(); //issue with types, probably gonna consult for this~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
