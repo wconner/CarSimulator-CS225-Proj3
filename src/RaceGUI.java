@@ -79,8 +79,8 @@ public class RaceGUI extends Application {
                 double x2 = locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentDestination()).getxCord();
                 double y2 = locations.get(cars.get((Integer.decode(((String) n.getUserData()).substring(3)))).getCurrentDestination()).getyCord();
 
-                int xCord = (int)(((x2 - x1) * ((edgeWeight - DTND) / edgeWeight)) + x1);
-                int yCord = (int)(((y2 - y1) * ((edgeWeight - DTND) / edgeWeight)) + y1);
+                double xCord = (((x2 - x1) * ((edgeWeight - DTND) / edgeWeight)) + x1);
+                double yCord = (((y2 - y1) * ((edgeWeight - DTND) / edgeWeight)) + y1);
 
                 if (((String) n.getUserData()).startsWith("car")) {
                     n.setTranslateX(xCord);
