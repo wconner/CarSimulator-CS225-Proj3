@@ -179,18 +179,18 @@ public class RaceGUI extends Application {
 
         //Places label for each car
         for(int i = 0; i < cars.size(); i++) {
+            String s = "";
             Label carlabel = new Label();
             carlabel.setTranslateX(660);
             carlabel.setTranslateY(100 + (i * 25));
-            String s = "Car" + (i + 1);
             switch (cars.get(i).getRacingNumber()%4){
-                case 1: s += "(White Car#"+(cars.get(i).getRacingNumber()/4 +1)+")";
+                case 1: s = "White Car";
                         break;
-                case 2: s += "(Red Car#"+(cars.get(i).getRacingNumber()/4 +1)+")";
+                case 2: s = "Red Car";
                     break;
-                case 3: s += "(Green Car#"+(cars.get(i).getRacingNumber()/4 +1)+")";
+                case 3: s = "Green Car";
                     break;
-                case 0: s += "(Blue Car#"+(cars.get(i).getRacingNumber()/4)+")";
+                case 0: s = "Blue Car";
                     break;
             }
             carlabel.setText(s);
