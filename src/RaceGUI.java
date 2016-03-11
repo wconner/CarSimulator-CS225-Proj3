@@ -34,6 +34,7 @@ public class RaceGUI extends Application {
     private ArrayList<Location> locations;
     private Group root;
     private ArrayList<Label> locationsVisitedLabels; private ArrayList<Label> currentSpeedLabels;
+    private boolean endGame;
     
     @Override
     public void start(Stage primaryStage) {
@@ -93,7 +94,7 @@ public class RaceGUI extends Application {
             String s = "";
             for (Integer j :cars.get(i).getLocationsVisited())
                 s += locations.get(j).getName() + " ";
-                 locationsVisitedLabels.get(i).setText(s);
+            locationsVisitedLabels.get(i).setText(s);
 
             currentSpeedLabels.get(i).setText(Integer.toString(cars.get(i).getCurrentSpeed()));
         }
@@ -181,7 +182,18 @@ public class RaceGUI extends Application {
             Label carlabel = new Label();
             carlabel.setTranslateX(660);
             carlabel.setTranslateY(100 + (i * 25));
-            carlabel.setText("Car" + (i + 1));
+            String s = "Car" + (i + 1);
+            switch (cars.get(i).getRacingNumber()%4){
+                case 1: s += "(White Car#"+(cars.get(i).getRacingNumber()/4 +1)+")";
+                        break;
+                case 2: s += "(Red Car#"+(cars.get(i).getRacingNumber()/4 +1)+")";
+                    break;
+                case 3: s += "(Green Car#"+(cars.get(i).getRacingNumber()/4 +1)+")";
+                    break;
+                case 0: s += "(Blue Car#"+(cars.get(i).getRacingNumber()/4)+")";
+                    break;
+            }
+            carlabel.setText(s);
             root.getChildren().add(carlabel);
         }
     }
@@ -214,10 +226,12 @@ public class RaceGUI extends Application {
 	btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                simulator.updateCars();
-                updateGUI();
-                simulator.checkForWinner();
-                counter = counter + 1;
+                if(!endGame) {
+                    simulator.updateCars();
+                    updateGUI();
+                    endGame = simulator.checkForWinner();
+                    counter = counter + 1;
+                }
             }
         });
     }

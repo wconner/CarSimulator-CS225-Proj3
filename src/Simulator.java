@@ -37,16 +37,19 @@ public class Simulator {
     public void updateCars(){
         for (Car c : cars)
             c.updateLocation(map.getEdges(c.getCurrentLocation()));
+        //System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     }
 
     /**
      * Checks to see if there is a winner.
      */
-    public void checkForWinner(){
+    public boolean checkForWinner(){
         for (Car c : cars)
             if (c.checkWin()) {
-                JOptionPane.showMessageDialog(null, "We have a winner!\nDistance traveled by winner: " + c.getDistanceTraveled());
+                JOptionPane.showMessageDialog(null, "We have a winner!\nCar "+c.getRacingNumber()+" has won!\nDistance traveled by Car "+c.getRacingNumber()+" : " + c.getDistanceTraveled());
+                return true;
             }
+        return false;
     }
 
     /**
