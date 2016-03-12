@@ -90,7 +90,7 @@ public class Car {
 
     // previously named chooseNewLocation
     // job is set it so that the new currentLocation is now the previous destination, then to choose next destination if it can, then set the new distanceToNextDestination
-    public void chooseNewDestination(ArrayList<Edge> possibleMoves) {
+    private void chooseNewDestination(ArrayList<Edge> possibleMoves) {
 
         //if(firstTime == 1) {
 
@@ -133,14 +133,6 @@ public class Car {
 
     public int getDistanceTraveled() {
         return distanceTraveled;
-    }
-
-    public void setMaxVelocity(int mV){
-        maxVelocity = mV;
-    }
-
-    public void setAcceleration(int a){
-        acceleration = a;
     }
 
     public int getCurrentSpeed(){ return currentSpeed;}
