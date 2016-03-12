@@ -33,8 +33,10 @@ public class RaceGUI extends Application {
     private ArrayList<Car> cars;
     private ArrayList<Location> locations;
     private Group root;
-    private ArrayList<Label> locationsVisitedLabels; private ArrayList<Label> currentSpeedLabels;
+    private ArrayList<Label> locationsVisitedLabels;
+    private ArrayList<Label> currentSpeedLabels;
     private boolean endGame;
+    private int counter = 0;
     
     @Override
     public void start(Stage primaryStage) {
@@ -43,19 +45,21 @@ public class RaceGUI extends Application {
         locations = simulator.getLocations();
         root = new Group();
 
-        locationsVisitedLabels = new ArrayList<Label>(); currentSpeedLabels = new ArrayList<Label>();
+        locationsVisitedLabels = new ArrayList<Label>();
+        currentSpeedLabels = new ArrayList<Label>();
         for (int i = 0; i < cars.size(); i++) {
             locationsVisitedLabels.add(new Label(""));
             currentSpeedLabels.add(new Label("0"));
         }
         
         //Map Image
-        Image map = null;
+        /*Image map = null;
         try {
-            map = new Image(new FileInputStream("src/US.Map.grey.png"));
+            map = new Image(new FileInputStream("US.Map.grey.png"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
+        }*/
+        Image map = new Image("US.Map.grey.png");
         ImageView iv = new ImageView(map);
         root.getChildren().add(iv);
 
@@ -109,40 +113,37 @@ public class RaceGUI extends Application {
         createMarkers();
         carMovement();
 
-        for (int i = 0; i < circles.getChildren().size(); i++){ /** Initializing location circles */
+        for (int i = 0; i < circles.getChildren().size(); i++){ /* Initializing location circles */
             circles.getChildren().get(i).setTranslateX(locations.get(i).getxCord() + XCIRCLEOFFSET);
             circles.getChildren().get(i).setTranslateY(locations.get(i).getyCord() - YCIRCLEOFFSET);
         }
 
         root.getChildren().add(circles);
 
-        for (int i = 0; i < locations.size(); i++){     /** Initializing locations */
+        for (int i = 0; i < locations.size(); i++){     /* Initializing locations */
             root.getChildren().add(new Text(locations.get(i).getxCord(), locations.get(i).getyCord(), locations.get(i).getName()));
         }
 
         ArrayList<Image> carImages = new ArrayList<>();
-        try {   /** Initializing cars */
-            whiteCarImage = new Image((new FileInputStream("src/carW.png")));
-            carImages.add(whiteCarImage);
-            redCarImage = new Image((new FileInputStream("src/carR.png")));
-            carImages.add(redCarImage);
-            greenCarImage = new Image((new FileInputStream("src/carG.png")));
-            carImages.add(greenCarImage);
-            blueCarImage = new Image((new FileInputStream("src/carB.png")));
-            carImages.add(blueCarImage);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        whiteCarImage = new Image("carW.png");
+        carImages.add(whiteCarImage);
+        redCarImage = new Image("carR.png");
+        carImages.add(redCarImage);
+        greenCarImage = new Image("carG.png");
+        carImages.add(greenCarImage);
+        blueCarImage = new Image("carB.png");
+        carImages.add(blueCarImage);
+        
 
         for (int i = 0; i < cars.size(); i++){
-            Image cImage = carImages.get(i%4);
+            Image cImage = carImages.get(i);
             ImageView im = new ImageView(cImage);
             im.setUserData("car" + i);
             im.setTranslateX(locations.get(cars.get(i).getCurrentLocation()).getxCord());
             im.setTranslateY(locations.get(cars.get(i).getCurrentLocation()).getyCord());
             root.getChildren().add(im);
         }
-
+ 
         root.getChildren().add(btn);
         
         Rectangle leaderboard = new Rectangle(650, 50, 200, 300);
@@ -160,11 +161,11 @@ public class RaceGUI extends Application {
 
         Label currentSpeedLabel = new Label();
         currentSpeedLabel.setFont(Font.font("Verdana", 10));
-        currentSpeedLabel.setText("Current Speed:");
+        currentSpeedLabel.setText("Current Speed: ");
         currentSpeedLabel.setTranslateX(750);
         currentSpeedLabel.setTranslateY(80);
 
-        for (int i = 0 ; i < cars.size(); i++) {
+        for (int i = 0; i < cars.size(); i++) {
             locationsVisitedLabels.get(i).setTranslateX(670 + (counter * 20));
             locationsVisitedLabels.get(i).setTranslateY(113 + (i * 25));
             root.getChildren().add(locationsVisitedLabels.get(i));
@@ -176,14 +177,13 @@ public class RaceGUI extends Application {
         root.getChildren().add(board);
         root.getChildren().add(currentSpeedLabel);
 
-
         //Places label for each car
         for(int i = 0; i < cars.size(); i++) {
             String s = "";
             Label carlabel = new Label();
             carlabel.setTranslateX(660);
             carlabel.setTranslateY(100 + (i * 25));
-            switch (cars.get(i).getRacingNumber()%4){
+            switch (cars.get(i).getRacingNumber() % 4){
                 case 1: s = "White Car";
                         break;
                 case 2: s = "Red Car";
@@ -213,7 +213,6 @@ public class RaceGUI extends Application {
         }
     }    
     
-    private int counter = 0;
     /**
     * Determines Next button's features and actions
     */
@@ -235,7 +234,7 @@ public class RaceGUI extends Application {
             }
         });
     }
-    
+     
     /**
      * @param args the command line arguments
      */
